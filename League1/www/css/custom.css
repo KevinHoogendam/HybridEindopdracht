@@ -3,10 +3,16 @@
 	position:relative;
 	height:48px;
 	width:48px;
-	margin: 1% 1% 0% 1%;
-	border-radius: 50%;
+	margin: 3% 1% 0% 1% !important;
+	border-radius: 50% !important;
 }
 
+.champli{
+    border-top-right-radius: 0.75em !important;
+	border-bottom-right-radius: 0.75em !important;
+	border-top-left-radius: 0em !important;
+	border-bottom-left-radius: 0em !important;
+}
 
  #sortable{
 	width: 80%;

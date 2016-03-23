@@ -51,7 +51,7 @@ function loadChampionList() {
 			var bgimageUrl = "img/";
 			var imageSprite = champions[c].image.sprite;
 
-			$(".chmplist").append('<li class="hello">' + name + '<img class="champs" id="' + id + '"></img></li>');
+			$(".chmplist").append('<li class="champli">' + name + '<img class="champs" id="' + id + '"></img></li>');
 			//$(".chmplist").append('<li class="champs" id="' + id + '"></li>');
 			$("#" + id).css("background-position", bgposition);
 			$("#" + id).css("background-image", "url(" + bgimageUrl + imageSprite + ")");
