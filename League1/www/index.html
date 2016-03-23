@@ -20,14 +20,7 @@
         <script src="js/jquery-ui.min.js"></script>
         <script src="js/jquery.ui.touch-punch.min.js"></script>
         <script>
-        $(document).bind('pageinit', function() {
-            $( "#sortable" ).sortable({ 'containment' : 'parent', 'opacity': 0.9 });
-            $( "#sortable" ).disableSelection();
-            <!-- Refresh list to the end of sort to have a correct display -->
-            $( "#sortable" ).bind( "sortstop", function(event, ui) {
-            $('#sortable').listview('refresh');
-            });
-        });
+
         </script>
 		<!-- my includes -->
 		<link rel="stylesheet" href="css/custom.css" />
