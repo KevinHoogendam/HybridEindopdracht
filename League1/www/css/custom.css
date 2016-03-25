@@ -27,7 +27,7 @@
 	padding: 0% 0% 0% 0%;
  }
  
-.plus-sign{
+.plus-sign, .min-sign{
 	 float: right;
 	 color: #005599;
 }
