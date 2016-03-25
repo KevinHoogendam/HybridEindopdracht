@@ -12,7 +12,11 @@
 		<link rel="stylesheet" href="css/themes/LOLTheme.min.css" />
 		<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
 		<link rel="stylesheet" href="css/themes/jquery.mobile.structure-1.4.5.min.css" />
+		<!-- font awesome -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<!-- custom css -->
 		<link rel="stylesheet" href="css/custom.css" />
+		<!-- jquery -->
 		<script src="js/jquery-1.11.3.js"></script>
 		<script src="js/custom.js"></script>
 		<script src="js/jquery.mobile-1.4.5.min.js"></script>
@@ -27,10 +31,17 @@
 	</head>
 	<body>
 		<div data-role="page" id="loginpage">
-			<a href="championlist.html" class="ui-btn" data-transition="slide">Champion List</a>
+			<div data-role="header">
+				<a class="ui-btn" href="#mypanel"><i class="fa fa-bars fa-1x" style="" ></i></a>
+				<h1>Home page</h1>	
+			</div>
+			<div data-role="main" class="ui-content">
+				<a href="allchampions.html" class="ui-btn" data-transition="slide">Champion List</a>
+			</div>
+			 <div data-role="footer" data-position="fixed">
+				<h2>Footer</h2>
+			 </div>
 		</div>
 	</body>
+	<script type="text/javascript" src="cordova.js"></script>
 </html>
-<script>
-
-</script>
