@@ -77,6 +77,7 @@ function removeChampFromList(champID){
     }
 	
 	localStorage.setItem("myChampionList", JSON.stringify(myChampionList));
+	}
 }
 
 
