@@ -3,7 +3,40 @@
 	position:relative;
 	height:48px;
 	width:48px;
-	margin: 1% 1% 0% 1%;
-	border-radius: 50%;
+	margin: 1% 1% 2% 1%;
+	border-radius: 50% !important;
 }
 
+.champli{
+   /* border-top-right-radius: 0.75em !important;
+	border-bottom-right-radius: 0.75em !important;
+	border-top-left-radius: 0em !important;
+	border-bottom-left-radius: 0em !important; */
+	border-radius: 0.75em !important;
+}
+
+ #sortable{
+	width: 80%;
+ }
+ 
+ .panellist{
+	margin-top: 5% !important;
+ }
+
+ .ui-panel-inner{
+	padding: 0% 0% 0% 0%;
+ }
+ 
+.plus-sign{
+	 float: right;
+	 color: #005599;
+}
+ 
+.fa-2x {
+  font-size: 2em !important;}
+.fa-3x {
+  font-size: 3em !important;}
+.fa-4x {
+  font-size: 4em !important;}
+.fa-5x {
+  font-size: 5em !important;}
