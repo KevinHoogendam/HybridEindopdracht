@@ -1,3 +1,7 @@
+body{
+	text-transform: none !important;
+}
+
 .champs {
 	display:block;
 	position:relative;
@@ -28,8 +32,20 @@
  }
  
 .plus-sign, .min-sign{
-	 float: right;
-	 color: #005599;
+	float: right;
+	/*padding: 4px 1% 1px 1% !important;*/
+	padding: 4px 6px 1px 6px !important;
+	min-height: 0em !important;
+}
+
+.float-right{
+	float: right;
+}
+
+.details{
+	float: right;
+	padding: 4px 1em 1px 1em !important;
+	min-height: 0em !important;
 }
  
 .fa-2x {
@@ -40,3 +56,29 @@
   font-size: 4em !important;}
 .fa-5x {
   font-size: 5em !important;}
+  
+.ui-header-fixed, .ui-footer-fixed{
+	z-index: 2 !important;
+}
+
+.toast {
+    width:200px;
+    height:20px;
+    height:auto;
+    position:fixed;
+    left:50%;
+    margin-left:-100px;
+    bottom:10px;
+    background-color: #383838;
+    color: #F0F0F0;
+    font-family: Calibri;
+    font-size: 20px;
+    padding:10px;
+    text-align:center;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+	z-index: 2;
+	opacity: 0.9;
+}
