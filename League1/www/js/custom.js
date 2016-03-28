@@ -1,5 +1,5 @@
 var champions;
-var panel = '<div data-role="panel" data-theme="c" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home Page</a> <a href="mychampions.html" class="ui-btn">My champions</a>  <a href="mycontacts" class="ui-btn">Profile</a></div> </div>';
+var panel = '<div data-role="panel" data-theme="c" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home Page</a> <a href="mychampions.html" class="ui-btn">My champions</a>  <a href="mycontacts.html" class="ui-btn">Profile</a></div> </div>';
 
 $(document).one('pagebeforecreate', function () {
 	$.mobile.pageContainer.prepend(panel);
