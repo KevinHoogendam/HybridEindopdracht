@@ -198,7 +198,7 @@ function searchAllContacts()
 {   
     alert('voor find');
     navigator.contacts.find( [navigator.contacts.fieldType.displayName], onSuccess, onError );
-    //Navigator.alert('na find');
+    Navigator.alert('na find');
 }
 
 function onSuccess(contacts) 
@@ -206,17 +206,17 @@ function onSuccess(contacts)
     alert('success');
     for (var i=0; i<contacts.length; i++) 
     {    
-        //Navigator.alert('check naam');
+        alert('check naam');
         if(contacts[i].displayName != undefined)
         {
-            //Navigator.alert('voeg toe naam');
+            alert('voeg toe naam');
                 $(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:'+contacts[i].phoneNumbers[0].value+'?body=doe mee potta" >invite</a></li>');
-        //Navigator.alert('naam toegevoegd');    
+        alert('naam toegevoegd');    
     }
     }
-     //Navigator.alert('voor refresh'); 
+     alert('voor refresh'); 
     $('.contactlist').listview('refresh');
-     //Navigator.alert('na refresh'); 
+     alert('na refresh'); 
 }
 
 function onError(contactError) 
