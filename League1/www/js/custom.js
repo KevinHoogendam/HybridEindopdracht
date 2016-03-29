@@ -18,7 +18,7 @@ $(document).on("mobileinit", function () {
 
 $(document).on("pagebeforeshow", "#mycontacts", function () {
 	console.log("before pageshow mycontacts");
-	searchAllContacts();
+	//searchAllContacts();
 });
 
 $(document).on("pagebeforeshow", function () {
