@@ -196,19 +196,27 @@ function uploadPhoto(data){
 
 function searchAllContacts() 
 {   
+    Navigator.alert('voor find');
     navigator.contacts.find( [navigator.contacts.fieldType.displayName], onSuccess, onError );
+    Navigator.alert('na find');
 }
 
 function onSuccess(contacts) 
 {
+    Navigator.alert('success');
     for (var i=0; i<contacts.length; i++) 
     {    
+        Navigator.alert('check naam');
         if(contacts[i].displayName != undefined)
         {
-                    $(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:'+contacts[i].phoneNumbers[0].value+'?body=doe mee potta" >invite</a></li>');
-        }
+            Navigator.alert('voeg toe naam');
+                $(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:'+contacts[i].phoneNumbers[0].value+'?body=doe mee potta" >invite</a></li>');
+        Navigator.alert('naam toegevoegd');    
     }
+    }
+     Navigator.alert('voor refresh'); 
     $('.contactlist').listview('refresh');
+     Navigator.alert('na refresh'); 
 }
 
 function onError(contactError) 
