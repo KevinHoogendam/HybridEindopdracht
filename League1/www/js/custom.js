@@ -196,14 +196,14 @@ function uploadPhoto(data){
 
 function searchAllContacts() 
 {   
-    //Navigator.alert('voor find');
+    alert('voor find');
     navigator.contacts.find( [navigator.contacts.fieldType.displayName], onSuccess, onError );
     //Navigator.alert('na find');
 }
 
 function onSuccess(contacts) 
 {
-    //Navigator.alert('success');
+    alert('success');
     for (var i=0; i<contacts.length; i++) 
     {    
         //Navigator.alert('check naam');
