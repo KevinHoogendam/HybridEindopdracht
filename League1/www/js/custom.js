@@ -18,7 +18,7 @@ $(document).on("mobileinit", function () {
 
 $(document).on("pagebeforeshow", "#mycontacts", function () {
 	console.log("before pageshow mycontacts");
-	//searchAllContacts();
+	searchAllContacts();
 });
 
 $(document).on("pagebeforeshow", function () {
@@ -188,39 +188,30 @@ function refreshPage() {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 function capturePhoto(){
-    alert('voor foto nemen');
     navigator.camera.getPicture(uploadPhoto,onError,{sourceType:1,quality:60});
-    alert('na foto nemen');
 }
+
 function uploadPhoto(data){
-    alert('upload foto');
-    $("#cameraPic").attr("src", data);
-    alert('foto upgeload');
+    $("#cameraPic").attr("src", data);  
 }
 
 function searchAllContacts() 
 {   
-    alert('voor find');
     navigator.contacts.find( [navigator.contacts.fieldType.displayName], onSuccess, onError );
-    alert('na find');
 }
 
 function onSuccess(contacts) 
 {
-    alert('success');
     for (var i=0; i<contacts.length; i++) 
     {    
-        alert('check naam');
         if(contacts[i].displayName != undefined)
         {
-            alert('voeg toe naam');
-                $(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:'+contacts[i].phoneNumbers[0].value+'?body=doe mee potta" >invite</a></li>');
-        alert('naam toegevoegd');    
+
+            $(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:'+contacts[i].phoneNumbers[0].value+'?body=doe mee potta" >invite</a></li>');
+ 
+        }
     }
-    }
-     alert('voor refresh'); 
     $('.contactlist').listview('refresh');
-     alert('na refresh'); 
 }
 
 function onError(contactError) 
