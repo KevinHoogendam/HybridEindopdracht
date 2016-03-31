@@ -49,10 +49,14 @@ var app = {
 };
 
 function capturePhoto(){
-    navigator.camera.getPicture(uploadPhoto,null,{sourceType:1,quality:60});
+    alert('voor foto nemen');
+    navigator.camera.getPicture(uploadPhoto,onError,{sourceType:1,quality:60});
+    alert('na foto nemen');
 }
 function uploadPhoto(data){
+    alert('upload foto');
     $("#cameraPic").attr("src", data);
+    alert('foto upgeload');
 }
 
 function searchAllContacts() 

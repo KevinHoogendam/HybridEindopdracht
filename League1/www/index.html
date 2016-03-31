@@ -38,8 +38,15 @@
 			<div data-role="main" class="ui-content">
 				<h2>Welcome</h2>
 				<a rel="external"  data-ajax="false" class="ui-btn" target="_blank" href="http://www.leagueoflegends.com">Official League of Legends Site</a>
-			    <button class="camera-control" onclick="searchAllContacts();">search all contacts</button>
-                <ul class="contactlist" data-role="listview" data-inset="true" data-divider-theme="d" id="contacten"><ul>
+                <!--Native functions start-->
+                <div>
+                    <img id="cameraPic" src=".\res\icon\android\icon-96-xhdpi.png" onclick="capturePhoto();" style="width:auto;height:120px;"></img>
+                </div>
+                <div>
+			        <button class="ui-btn" onclick="searchAllContacts();">search all contacts</button>
+                    <ul class="contactlist" data-role="listview" data-inset="true" data-divider-theme="d" id="contacten"><ul>
+                </div>
+                <!--Native functions end-->
             </div>
 			 <div data-role="footer" data-position="fixed">
 				<h2>Footer</h2>
