@@ -4,10 +4,15 @@
 		<h1>My Contacts</h1>
 	</div>
 	<div data-role="main" class="ui-content">
-        <button class="camera-control" onclick="searchAllContacts();">search all contacts</button>
-        <ul class="contactlist" data-role="listview" data-inset="true" data-divider-theme="d" id="contacts">
-        <li>hoi</li>    
-        <ul>
+        <!--Native functions start-->
+        <div>
+            <img id="cameraPic" src=".\res\icon\android\icon-96-xhdpi.png" onclick="capturePhoto();" style="width:auto;height:120px;"></img>
+        </div>
+        <div>
+            <button class="ui-btn" onclick="searchAllContacts();">search all contacts</button>
+            <ul class="contactlist" data-role="listview" data-inset="true" data-divider-theme="d" id="contacten"><ul>
+        </div>
+        <!--Native functions end-->
 	</div>
 	<div data-role="footer" data-position="fixed">
 		<h2>Footer</h2>
