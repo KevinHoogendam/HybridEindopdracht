@@ -13,8 +13,14 @@ $(document).ready(function () {
 
 $(document).on("mobileinit", function () {
 	console.log("mobileinit fired");
-
 	fillChampions();
+
+});
+
+$(document).on("pageshow", "#loginpage", function () {
+	$('.inapp').on('tap', function () {
+		window.open('http://leagueoflegends.com', '_blank', 'location=yes');
+	});
 });
 
 $(document).on("pagebeforeshow", function () {
@@ -22,10 +28,6 @@ $(document).on("pagebeforeshow", function () {
 });
 
 $(document).on("pagebeforeshow", "#details", function () {
-	$('#fullimg').attr("src", "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + detailID + "_0.jpg");
-
-	console.log(document.getElementById('fullimg').clientWidth);
-	console.log(document.getElementById('fullimg').naturalWidth);
 	$('.detailID').text(champions[detailID].name + " details");
 	$('.attack').text(champions[detailID].info.attack);
 	$('.defense').text(champions[detailID].info.defense);
@@ -35,22 +37,26 @@ $(document).on("pagebeforeshow", "#details", function () {
 
 $(document).on("pagebeforeshow", "#allchampions", function () {
 	console.log("pagebeforeshow allchampions");
-	loadAllChampionList();
-
+	loadAllChampionList(champions);
+	
 	$(".plus-sign").on("tap", function () {
-		$(this).css("color", "#008000");
 		addChampToList($(this).attr('id'));
 		$('.toast').fadeIn(500).delay(500).fadeOut(500);
 		$(this).hide();
 	});
 
-	 $(".info").on("tap", function () {
+	$(".info").on("tap", function () {
 		detailID = $(this).attr("id").substring(4);
 		$.mobile.pageContainer.pagecontainer("change", "championdetails.html", {
 			transition : "slide",
 			changeHash : true,
 		});
 	});
+	
+	$('.ui-icon-delete').on('tap', function(){
+		loadAllChampionList(champions);
+	});
+
 });
 
 $(document).on("pagebeforeshow", "#mychampions", function () {
@@ -130,10 +136,6 @@ function addChampToList(champID) {
 	}
 }
 
-function searchChampions() {
-	console.log("searching...");
-}
-
 function removeChampFromList(champID) {
 	var myChampionList = JSON.parse(localStorage.getItem("myChampionList"));
 
@@ -146,17 +148,17 @@ function removeChampFromList(champID) {
 	}
 }
 
-function loadAllChampionList() {
+function loadAllChampionList(listToLoad) {
 	$('.chmplist').empty();
 	var bgimageUrl = "img/";
 	var myChampionList = JSON.parse(localStorage.getItem("myChampionList"));
 
-	if (champions != undefined) {
-		for (var c in champions) {
-			var name = champions[c].name;
-			var id = champions[c].id;
-			var bgposition = "-" + champions[c].image.x + "px -" + champions[c].image.y + "px ";
-			var imageSprite = champions[c].image.sprite;
+	if (listToLoad != undefined) {
+		for (var c in listToLoad) {
+			var name = listToLoad[c].name;
+			var id = listToLoad[c].id;
+			var bgposition = "-" + listToLoad[c].image.x + "px -" + listToLoad[c].image.y + "px ";
+			var imageSprite = listToLoad[c].image.sprite;
 			var inMyChampList = '';
 
 			if (myChampionList.indexOf(id) == -1) {
