@@ -185,7 +185,7 @@ function refreshPage() {
 		reloadPage : true
 	});
 }
-////////////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------------------Native functies-----------------------------------------------------------------\\
 
 function capturePhoto(){
     navigator.camera.getPicture(uploadPhoto,onError,{sourceType:1,quality:60});
