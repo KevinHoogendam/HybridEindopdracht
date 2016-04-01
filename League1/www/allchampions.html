@@ -1,13 +1,13 @@
-<div data-role="page" id="allchampions" data-close-btn="right" data-dom-cache="true">
+<div data-role="page" id="allchampions" data-dom-cache="true">
 	<div data-role="header">
+		<a class="ui-btn" href="#mypanel"><i class="fa fa-bars fa-1x"></i></a>
 		<h1>All champions</h1>
-		<a class="ui-btn" href="mychampions.html" data-transition="pop" data-direction="reverse"><i class="fa fa-times fa-1x float-right"></i></a>
 	</div>
 	<div data-role="main" class="ui-content">
 		<label for="search-basic"></label>
-		<input type="search" onkeyup="searchChampions()" name="search" id="searchAll" value="" />
+
 		<div class='toast'>Champion added</div>
-		<ul class="chmplist" data-role="listview" data-inset="true" data-divider-theme="d"><ul>
+		<ul class="chmplist ui-listview" data-role="listview" data-inset="true" data-sort="true" data-filter="true"><ul>
 	</div>
 	<div data-role="footer" data-position="fixed">
 		<h2>Footer</h2>

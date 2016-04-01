@@ -1,5 +1,6 @@
 var champions;
-var panel = '<div data-role="panel" data-theme="c" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home Page</a> <a href="mychampions.html" class="ui-btn">My champions</a>  <a href="#" class="ui-btn">Profile</a></div> </div>';
+var panel = '<div data-role="panel" data-theme="c" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home</a> <a href="mychampions.html" class="ui-btn">My Champions</a> <a href="allchampions.html" class="ui-btn">All Champions</a>  <a href="#" class="ui-btn">Profile</a></div> </div>';
+var detailID;
 
 $(document).one('pagebeforecreate', function () {
 	$.mobile.pageContainer.prepend(panel);
@@ -12,28 +13,54 @@ $(document).ready(function () {
 
 $(document).on("mobileinit", function () {
 	console.log("mobileinit fired");
-
 	fillChampions();
+
+});
+
+$(document).on("pageshow", "#loginpage", function () {
+	$('.inapp').on('tap', function () {
+		window.open('http://leagueoflegends.com', '_blank', 'location=yes');
+	});
 });
 
 $(document).on("pagebeforeshow", function () {
 	$('.toast').hide();
 });
 
-$(document).on("pageshow", "#allchampions", function () {
-	console.log("pageshow allchampions");
-	loadAllChampionList();
-
-	$(".plus-sign").on("tap", function () {
-		$(this).css("color", "#008000");
-		addChampToList($(this).attr('id'));
-		$('.toast').fadeIn(500).delay(1000).fadeOut(500);
-		$(this).hide();
-	});
+$(document).on("pagebeforeshow", "#details", function () {
+	$('.detailID').text(champions[detailID].name + " details");
+	$('.attack').text(champions[detailID].info.attack);
+	$('.defense').text(champions[detailID].info.defense);
+	$('.magic').text(champions[detailID].info.magic);
+	$('.difficulty').text(champions[detailID].info.difficulty);
 });
 
-$(document).on("pageshow", "#mychampions", function () {
-	console.log("pageshow mychampions");
+$(document).on("pagebeforeshow", "#allchampions", function () {
+	console.log("pagebeforeshow allchampions");
+	loadAllChampionList(champions);
+	
+	$(".plus-sign").on("tap", function () {
+		addChampToList($(this).attr('id'));
+		$('.toast').fadeIn(500).delay(500).fadeOut(500);
+		$(this).hide();
+	});
+
+	$(".info").on("tap", function () {
+		detailID = $(this).attr("id").substring(4);
+		$.mobile.pageContainer.pagecontainer("change", "championdetails.html", {
+			transition : "slide",
+			changeHash : true,
+		});
+	});
+	
+	$('.ui-icon-delete').on('tap', function(){
+		loadAllChampionList(champions);
+	});
+
+});
+
+$(document).on("pagebeforeshow", "#mychampions", function () {
+	console.log("pagebeforeshow mychampions");
 	loadMyChampionList();
 
 	//make list sortable
@@ -51,7 +78,7 @@ $(document).on("pageshow", "#mychampions", function () {
 	//delete champ from list
 	$(".min-sign").on("tap", function () {
 		$(this).css("color", "#FF0000");
-		$('.toast').fadeIn(500).delay(1000).fadeOut(500);
+		$('.toast').fadeIn(500).delay(500).fadeOut(500);
 		removeChampFromList($(this).attr('id'));
 		$("#li" + $(this).attr('id')).hide();
 	});
@@ -80,7 +107,7 @@ function fillChampions() {
 			}
 		});
 	}
-	
+
 	var myChampionList = JSON.parse(localStorage.getItem("myChampionList"));
 	if (myChampionList === null) { //If champlist does not exist yet
 		localStorage.setItem("myChampionList", JSON.stringify([]));
@@ -109,10 +136,6 @@ function addChampToList(champID) {
 	}
 }
 
-function searchChampions() {
-	console.log("searching...");
-}
-
 function removeChampFromList(champID) {
 	var myChampionList = JSON.parse(localStorage.getItem("myChampionList"));
 
@@ -125,24 +148,24 @@ function removeChampFromList(champID) {
 	}
 }
 
-function loadAllChampionList() {
+function loadAllChampionList(listToLoad) {
 	$('.chmplist').empty();
 	var bgimageUrl = "img/";
 	var myChampionList = JSON.parse(localStorage.getItem("myChampionList"));
 
-	if (champions != undefined) {
-		for (var c in champions) {
-			var name = champions[c].name;
-			var id = champions[c].id;
-			var bgposition = "-" + champions[c].image.x + "px -" + champions[c].image.y + "px ";
-			var imageSprite = champions[c].image.sprite;
+	if (listToLoad != undefined) {
+		for (var c in listToLoad) {
+			var name = listToLoad[c].name;
+			var id = listToLoad[c].id;
+			var bgposition = "-" + listToLoad[c].image.x + "px -" + listToLoad[c].image.y + "px ";
+			var imageSprite = listToLoad[c].image.sprite;
 			var inMyChampList = '';
 
 			if (myChampionList.indexOf(id) == -1) {
 				inMyChampList = '<div class="ui-btn ui-btn-inline plus-sign" id="' + id + '"><i class="fa fa-plus fa-3x"></i></div>';
 			}
 
-			$(".chmplist").append('<li class="champli">' + name + '<img class="champs img' + id + '"></img>' + inMyChampList + '<div class="ui-btn ui-btn-inline details"><i class="fa fa-info fa-3x"></i></div></li>');
+			$(".chmplist").append('<li class="champli">' + name + '<img class="champs img' + id + '"></img>' + inMyChampList + '<div id="info' + id + '"class="ui-btn ui-btn-inline info"><i class="fa fa-info fa-3x"></i></div></li>');
 			$(".img" + id).css("background-image", "url(" + bgimageUrl + imageSprite + ")");
 			$(".img" + id).css("background-position", bgposition);
 		}
