@@ -29,6 +29,15 @@ $(document).on("pagebeforeshow", function () {
 
 $(document).on("pageinit", "#mycontacts", function () {
 	console.log("before pageshow mycontacts");
+	var picture = localStorage.getItem("profilepicture");
+	if(picture != undefined){
+		$("#cameraPic").attr("src", picture);  
+	}
+	
+	$('#cameraPic').on('tap', function(){
+		capturePhoto();
+	});
+	
 	searchAllContacts();
 });
 
@@ -216,11 +225,13 @@ function capturePhoto(){
 }
 
 function uploadPhoto(data){
+	localStorage.setItem("profilepicture", data);
     $("#cameraPic").attr("src", data);  
 }
 
 function searchAllContacts() 
 {   
+	$("#emptyloader").append('<div class="loader">Loading...</div>');
     navigator.contacts.find( [navigator.contacts.fieldType.displayName], onSuccess, onError );
 }
 
@@ -231,11 +242,12 @@ function onSuccess(contacts)
         if(contacts[i].displayName != undefined)
         {
 
-            $(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:'+contacts[i].phoneNumbers[0].value+'?body=doe mee potta" >invite</a></li>');
+            $(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:'+contacts[i].phoneNumbers[0].value+';body=doe mee potta" >invite</a></li>');
  
         }
     }
     $('.contactlist').listview('refresh');
+	$('.loader').remove();
 }
 
 function onError(contactError) 
