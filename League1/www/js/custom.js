@@ -1,5 +1,5 @@
 var champions;
-var panel = '<div data-role="panel" data-theme="c" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home</a> <a href="mychampions.html" class="ui-btn">My Champions</a> <a href="allchampions.html" class="ui-btn">All Champions</a>  <a href="#" class="ui-btn">Profile</a></div> </div>';
+var panel = '<div data-role="panel" data-theme="c" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home</a> <a href="mychampions.html" class="ui-btn">My Champions</a> <a href="allchampions.html" class="ui-btn">All Champions</a>  <a href="mycontacts.html" class="ui-btn">Profile</a></div> </div>';
 var detailID;
 
 $(document).one('pagebeforecreate', function () {
@@ -25,6 +25,11 @@ $(document).on("pageshow", "#loginpage", function () {
 
 $(document).on("pagebeforeshow", function () {
 	$('.toast').hide();
+});
+
+$(document).on("pageinit", "#mycontacts", function () {
+	console.log("before pageshow mycontacts");
+	searchAllContacts();
 });
 
 $(document).on("pagebeforeshow", "#details", function () {
@@ -203,3 +208,38 @@ function refreshPage() {
 		reloadPage : true
 	});
 }
+
+//----------------------------------------------------Native functies-----------------------------------------------------------------\\
+
+function capturePhoto(){
+    navigator.camera.getPicture(uploadPhoto,onError,{sourceType:1,quality:60});
+}
+
+function uploadPhoto(data){
+    $("#cameraPic").attr("src", data);  
+}
+
+function searchAllContacts() 
+{   
+    navigator.contacts.find( [navigator.contacts.fieldType.displayName], onSuccess, onError );
+}
+
+function onSuccess(contacts) 
+{
+    for (var i=0; i<contacts.length; i++) 
+    {    
+        if(contacts[i].displayName != undefined)
+        {
+
+            $(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:'+contacts[i].phoneNumbers[0].value+'?body=doe mee potta" >invite</a></li>');
+ 
+        }
+    }
+    $('.contactlist').listview('refresh');
+}
+
+function onError(contactError) 
+{
+    alert('onError!');
+}
+
