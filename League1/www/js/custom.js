@@ -52,7 +52,7 @@ $(document).on("pagebeforechange", function () {
 });	
 
 $(document).on("pagebeforeshow", function () {
-    //getLanguage();
+    getLanguage();
 	$('.toast').hide();
 });
 
@@ -342,7 +342,8 @@ function onError(contactError) {
 //----------------------------------------------------Taal functies-----------------------------------------------------------------\\
 
 function getLanguage() {    
-    navigator.globalization.getPreferredLanguage(onLaguageSucces, onLaguageError);
+    setDutch();  
+    //navigator.globalization.getPreferredLanguage(onLaguageSucces, onLaguageError);
 }
 
 function onLaguageSucces(language)
@@ -389,8 +390,6 @@ function setDutch()
     //Settings
     $(".settingsWillActivateWhenChangingPage").html("Instelling worden aangepast bij het veranderen van de pagina");
     $(".applicationTheme").html("Applicatie thema");
-    $(".standard").html("standaard");
-    $(".special").html("speciaal");
     //profile
     $(".invite").html("Uitnodigen");
 }
@@ -421,8 +420,8 @@ function setEnglish()
     //Settings
     $(".settingsWillActivateWhenChangingPage").html("Settings Will Activate When Changing the Page");
     $(".applicationTheme").html("Application theme");
-    $(".standard").html("standard");
-    $(".special").html("special");
+    // $(".standard").html("standard");
+    // $(".special").html("special");
     //profile
     $(".invite").html("Invite");
 }
