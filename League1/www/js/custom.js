@@ -1,5 +1,7 @@
 var champions;
-var panel = '<div data-role="panel" data-theme="c" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home Page</a> <a href="mychampions.html" class="ui-btn">My champions</a>  <a href="mycontacts.html" class="ui-btn">Profile</a></div> </div>';
+var panel = '<div data-role="panel" data-theme="b" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home</a> <a href="mychampions.html" class="ui-btn">My Champions</a> <a href="allchampions.html" class="ui-btn">All Champions</a>  <a href="mycontacts.html" class="ui-btn">Profile</a><a href="settings.html" class="ui-btn">Settings</a></div> </div>';
+var detailID;
+var globalTheme = getTheme();
 
 $(document).one('pagebeforecreate', function () {
 	$.mobile.pageContainer.prepend(panel);
@@ -12,33 +14,143 @@ $(document).ready(function () {
 
 $(document).on("mobileinit", function () {
 	console.log("mobileinit fired");
-
 	fillChampions();
+
+	$.mobile.changeGlobalTheme = function (theme) {
+		// These themes will be cleared, add more
+		// swatch letters as needed.
+		var themes = " a b c d e";
+
+		// Updates the theme for all elements that match the
+		// CSS selector with the specified theme class.
+		function setTheme(cssSelector, themeClass, theme) {
+			$(cssSelector)
+			.removeClass(themes.split(" ").join(" " + themeClass + "-"))
+			.addClass(themeClass + "-" + theme)
+			.attr("data-theme", theme);
+		}
+
+		// Add more selectors/theme classes as needed.
+		setTheme(".ui-mobile-viewport", "ui-overlay", theme);
+		setTheme("[data-role='page']", "ui-body", theme);
+		setTheme("[data-role='header']", "ui-bar", theme);
+		setTheme("[data-role='listview'] > li", "ui-bar", theme);
+		setTheme(".ui-btn", "ui-btn-up", theme);
+		setTheme(".ui-btn", "ui-btn-hover", theme);
+	};
+
 });
 
-$(document).on("pagebeforeshow", "#mycontacts", function () {
-	console.log("before pageshow mycontacts");
-	searchAllContacts();
+$(document).on("pageshow", "#loginpage", function () {
+	$('.inapp').on('tap', function () {
+		window.open('http://leagueoflegends.com', '_blank', 'location=yes');
+	});
 });
+
+$(document).on("pagebeforechange", function () {
+	$.mobile.changeGlobalTheme(globalTheme);
+});	
 
 $(document).on("pagebeforeshow", function () {
 	$('.toast').hide();
 });
 
-$(document).on("pageshow", "#allchampions", function () {
-	console.log("pageshow allchampions");
-	loadAllChampionList();
+$(document).on("pageinit", "#settings", function () {
+	var i = localStorage.getItem("theme");
+	if (i != undefined) {
+		$('#themeselect').val(i).change();
+	} else {
+		$('#themeselect').val('standard');
+	}
 
-	$(".plus-sign").on("tap", function () {
-		$(this).css("color", "#008000");
-		addChampToList($(this).attr('id'));
-		$('.toast').fadeIn(500).delay(1000).fadeOut(500);
-		$(this).hide();
+	$("#themeselect").change(function () {
+		localStorage.setItem("theme", $('#themeselect').val());
+		globalTheme = getTheme();
+	});
+	
+	
+	$(function(){
+		$( "#settings" ).on( "swipeleft", swipeleftHandler );
+ 
+		function swipeleftHandler( event ){
+			$.mobile.changePage( "status.html", {
+				transition: "slide",
+
+			});
+		}
+	});
+
+});
+
+$(document).on("pageinit", "#status", function () {
+	var status = localStorage.getItem("status");
+	
+	$('#stat').val(status);
+	
+	$('#stat').on('keyup', function(){
+		localStorage.setItem("status", $(this).val());
+	});
+	
+	$(function(){
+		$( "#status" ).on( "swiperight", swiperightHandler );
+ 
+		function swiperightHandler( event ){
+			$.mobile.changePage( "settings.html", {
+				transition: "slide",
+				reverse: true
+			});
+		}
 	});
 });
 
-$(document).on("pageshow", "#mychampions", function () {
-	console.log("pageshow mychampions");
+$(document).on("pageinit", "#mycontacts", function () {
+	console.log("before pageshow mycontacts");
+	var picture = localStorage.getItem("profilepicture");
+	if (picture != undefined) {
+		$("#cameraPic").attr("src", picture);
+	}
+
+	$('#cameraPic').on('tap', function () {
+		capturePhoto();
+	});
+		
+	searchAllContacts();
+});
+
+$(document).on("pagebeforeshow", "#details", function () {
+	$('.detailID').text(champions[detailID].name + " details");
+	$('.attack').text(champions[detailID].info.attack);
+	$('.defense').text(champions[detailID].info.defense);
+	$('.magic').text(champions[detailID].info.magic);
+	$('.difficulty').text(champions[detailID].info.difficulty);
+});
+
+$(document).on("pagebeforeshow", "#allchampions", function () {
+	console.log("pagebeforeshow allchampions");
+	loadAllChampionList(champions);
+
+	$(".plus-sign").on("tap", function () {
+		addChampToList($(this).attr('id'));
+		$('.toast').fadeIn(500).delay(500).fadeOut(500);
+		$(this).hide();
+	});
+
+	$(".info").on("tap", function () {
+		detailID = $(this).attr("id").substring(4);
+		$.mobile.pageContainer.pagecontainer("change", "championdetails.html", {
+			transition : "slide",
+			changeHash : true,
+		});
+	});
+
+	$('.ui-icon-delete').on('tap', function () {
+		loadAllChampionList(champions);
+	});
+
+});
+
+$(document).on("pagebeforeshow", "#mychampions", function () {
+	console.log("pagebeforeshow mychampions");
 	loadMyChampionList();
 
 	//make list sortable
@@ -56,7 +168,7 @@ $(document).on("pageshow", "#mychampions", function () {
 	//delete champ from list
 	$(".min-sign").on("tap", function () {
 		$(this).css("color", "#FF0000");
-		$('.toast').fadeIn(500).delay(1000).fadeOut(500);
+		$('.toast').fadeIn(500).delay(500).fadeOut(500);
 		removeChampFromList($(this).attr('id'));
 		$("#li" + $(this).attr('id')).hide();
 	});
@@ -85,7 +197,7 @@ function fillChampions() {
 			}
 		});
 	}
-	
+
 	var myChampionList = JSON.parse(localStorage.getItem("myChampionList"));
 	if (myChampionList === null) { //If champlist does not exist yet
 		localStorage.setItem("myChampionList", JSON.stringify([]));
@@ -114,10 +226,6 @@ function addChampToList(champID) {
 	}
 }
 
-function searchChampions() {
-	console.log("searching...");
-}
-
 function removeChampFromList(champID) {
 	var myChampionList = JSON.parse(localStorage.getItem("myChampionList"));
 
@@ -130,24 +238,24 @@ function removeChampFromList(champID) {
 	}
 }
 
-function loadAllChampionList() {
+function loadAllChampionList(listToLoad) {
 	$('.chmplist').empty();
 	var bgimageUrl = "img/";
 	var myChampionList = JSON.parse(localStorage.getItem("myChampionList"));
 
-	if (champions != undefined) {
-		for (var c in champions) {
-			var name = champions[c].name;
-			var id = champions[c].id;
-			var bgposition = "-" + champions[c].image.x + "px -" + champions[c].image.y + "px ";
-			var imageSprite = champions[c].image.sprite;
+	if (listToLoad != undefined) {
+		for (var c in listToLoad) {
+			var name = listToLoad[c].name;
+			var id = listToLoad[c].id;
+			var bgposition = "-" + listToLoad[c].image.x + "px -" + listToLoad[c].image.y + "px ";
+			var imageSprite = listToLoad[c].image.sprite;
 			var inMyChampList = '';
 
 			if (myChampionList.indexOf(id) == -1) {
 				inMyChampList = '<div class="ui-btn ui-btn-inline plus-sign" id="' + id + '"><i class="fa fa-plus fa-3x"></i></div>';
 			}
 
-			$(".chmplist").append('<li class="champli">' + name + '<img class="champs img' + id + '"></img>' + inMyChampList + '<div class="ui-btn ui-btn-inline details"><i class="fa fa-info fa-3x"></i></div></li>');
+			$(".chmplist").append('<li class="champli">' + name + '<img class="champs img' + id + '"></img>' + inMyChampList + '<div id="info' + id + '"class="ui-btn ui-btn-inline info"><i class="fa fa-info fa-3x"></i></div></li>');
 			$(".img" + id).css("background-image", "url(" + bgimageUrl + imageSprite + ")");
 			$(".img" + id).css("background-position", bgposition);
 		}
@@ -178,6 +286,15 @@ function loadMyChampionList() {
 	}
 }
 
+function getTheme() {
+	var i = localStorage.getItem("theme");
+	if (i == 'special') {
+		return 'c'
+	} else {
+		return 'a'
+	}
+}
+
 function refreshPage() {
 	jQuery.mobile.changePage(window.location.href, {
 		allowSamePageTransition : true,
@@ -185,36 +302,40 @@ function refreshPage() {
 		reloadPage : true
 	});
 }
+
 //----------------------------------------------------Native functies-----------------------------------------------------------------\\
 
-function capturePhoto(){
-    navigator.camera.getPicture(uploadPhoto,onError,{sourceType:1,quality:60});
+function capturePhoto() {
+	navigator.camera.getPicture(uploadPhoto, onError, {
+		sourceType : 1,
+		quality : 60
+	});
 }
 
-function uploadPhoto(data){
-    $("#cameraPic").attr("src", data);  
+function uploadPhoto(data) {
+	localStorage.setItem("profilepicture", data);
+	$("#cameraPic").attr("src", data);
 }
 
-function searchAllContacts() 
-{   
-    navigator.contacts.find( [navigator.contacts.fieldType.displayName], onSuccess, onError );
+function searchAllContacts() {
+	$("#emptyloader").append('<div class="loader">Loading...</div>');
+	navigator.contacts.find([navigator.contacts.fieldType.displayName], onSuccess, onError);
 }
 
-function onSuccess(contacts) 
-{
-    for (var i=0; i<contacts.length; i++) 
-    {    
-        if(contacts[i].displayName != undefined)
-        {
+function onSuccess(contacts) {
+	for (var i = 0; i < contacts.length; i++) {
+		if (contacts[i].displayName != undefined) {
 
-            $(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:'+contacts[i].phoneNumbers[0].value+'?body=doe mee potta" >invite</a></li>');
- 
-        }
-    }
-    $('.contactlist').listview('refresh');
+			$(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:' + contacts[i].phoneNumbers[0].value + ';body=doe mee potta" >invite</a></li>');
+
+		}
+	}
+	$('.contactlist').listview('refresh');
+	$('.loader').remove();
 }
 
-function onError(contactError) 
-{
-    alert('onError!');
+function onError(contactError) {
+	alert('Foto maken geannuleerd!');
 }
+
+/* test----------------------------------------*/
