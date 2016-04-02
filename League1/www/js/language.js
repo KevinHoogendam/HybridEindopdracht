@@ -4,7 +4,7 @@ function getLanguage() {
 
 function onSucces(language)
 {
-    alert(language)
+    alert(language.value)
     //     switch (language) {
     //     case 0:
     //         day = "Sunday";
