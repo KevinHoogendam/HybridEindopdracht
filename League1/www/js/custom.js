@@ -52,7 +52,7 @@ $(document).on("pagebeforechange", function () {
 });	
 
 $(document).on("pagebeforeshow", function () {
-    getLanguage();
+    //getLanguage();
 	$('.toast').hide();
 });
 
