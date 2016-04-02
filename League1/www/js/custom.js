@@ -1,6 +1,7 @@
 var champions;
-var panel = '<div data-role="panel" data-theme="c" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home</a> <a href="mychampions.html" class="ui-btn">My Champions</a> <a href="allchampions.html" class="ui-btn">All Champions</a>  <a href="mycontacts.html" class="ui-btn">Profile</a></div> </div>';
+var panel = '<div data-role="panel" data-theme="b" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home</a> <a href="mychampions.html" class="ui-btn">My Champions</a> <a href="allchampions.html" class="ui-btn">All Champions</a>  <a href="mycontacts.html" class="ui-btn">Profile</a><a href="settings.html" class="ui-btn">Settings</a></div> </div>';
 var detailID;
+var globalTheme = getTheme();
 
 $(document).one('pagebeforecreate', function () {
 	$.mobile.pageContainer.prepend(panel);
@@ -15,6 +16,29 @@ $(document).on("mobileinit", function () {
 	console.log("mobileinit fired");
 	fillChampions();
 
+	$.mobile.changeGlobalTheme = function (theme) {
+		// These themes will be cleared, add more
+		// swatch letters as needed.
+		var themes = " a b c d e";
+
+		// Updates the theme for all elements that match the
+		// CSS selector with the specified theme class.
+		function setTheme(cssSelector, themeClass, theme) {
+			$(cssSelector)
+			.removeClass(themes.split(" ").join(" " + themeClass + "-"))
+			.addClass(themeClass + "-" + theme)
+			.attr("data-theme", theme);
+		}
+
+		// Add more selectors/theme classes as needed.
+		setTheme(".ui-mobile-viewport", "ui-overlay", theme);
+		setTheme("[data-role='page']", "ui-body", theme);
+		setTheme("[data-role='header']", "ui-bar", theme);
+		setTheme("[data-role='listview'] > li", "ui-bar", theme);
+		setTheme(".ui-btn", "ui-btn-up", theme);
+		setTheme(".ui-btn", "ui-btn-hover", theme);
+	};
+
 });
 
 $(document).on("pageshow", "#loginpage", function () {
@@ -23,21 +47,73 @@ $(document).on("pageshow", "#loginpage", function () {
 	});
 });
 
+$(document).on("pagebeforechange", function () {
+	$.mobile.changeGlobalTheme(globalTheme);
+});	
+
 $(document).on("pagebeforeshow", function () {
 	$('.toast').hide();
+});
+
+$(document).on("pageinit", "#settings", function () {
+	var i = localStorage.getItem("theme");
+	if (i != undefined) {
+		$('#themeselect').val(i).change();
+	} else {
+		$('#themeselect').val('standard');
+	}
+
+	$("#themeselect").change(function () {
+		localStorage.setItem("theme", $('#themeselect').val());
+		globalTheme = getTheme();
+	});
+	
+	
+	$(function(){
+		$( "#settings" ).on( "swipeleft", swipeleftHandler );
+ 
+		function swipeleftHandler( event ){
+			$.mobile.changePage( "status.html", {
+				transition: "slide",
+
+			});
+		}
+	});
+
+});
+
+$(document).on("pageinit", "#status", function () {
+	var status = localStorage.getItem("status");
+	
+	$('#stat').val(status);
+	
+	$('#stat').on('keyup', function(){
+		localStorage.setItem("status", $(this).val());
+	});
+	
+	$(function(){
+		$( "#status" ).on( "swiperight", swiperightHandler );
+ 
+		function swiperightHandler( event ){
+			$.mobile.changePage( "settings.html", {
+				transition: "slide",
+				reverse: true
+			});
+		}
+	});
 });
 
 $(document).on("pageinit", "#mycontacts", function () {
 	console.log("before pageshow mycontacts");
 	var picture = localStorage.getItem("profilepicture");
-	if(picture != undefined){
-		$("#cameraPic").attr("src", picture);  
+	if (picture != undefined) {
+		$("#cameraPic").attr("src", picture);
 	}
-	
-	$('#cameraPic').on('tap', function(){
+
+	$('#cameraPic').on('tap', function () {
 		capturePhoto();
 	});
-	
+		
 	searchAllContacts();
 });
 
@@ -52,7 +128,7 @@ $(document).on("pagebeforeshow", "#details", function () {
 $(document).on("pagebeforeshow", "#allchampions", function () {
 	console.log("pagebeforeshow allchampions");
 	loadAllChampionList(champions);
-	
+
 	$(".plus-sign").on("tap", function () {
 		addChampToList($(this).attr('id'));
 		$('.toast').fadeIn(500).delay(500).fadeOut(500);
@@ -66,8 +142,8 @@ $(document).on("pagebeforeshow", "#allchampions", function () {
 			changeHash : true,
 		});
 	});
-	
-	$('.ui-icon-delete').on('tap', function(){
+
+	$('.ui-icon-delete').on('tap', function () {
 		loadAllChampionList(champions);
 	});
 
@@ -210,6 +286,15 @@ function loadMyChampionList() {
 	}
 }
 
+function getTheme() {
+	var i = localStorage.getItem("theme");
+	if (i == 'special') {
+		return 'c'
+	} else {
+		return 'a'
+	}
+}
+
 function refreshPage() {
 	jQuery.mobile.changePage(window.location.href, {
 		allowSamePageTransition : true,
@@ -220,38 +305,37 @@ function refreshPage() {
 
 //----------------------------------------------------Native functies-----------------------------------------------------------------\\
 
-function capturePhoto(){
-    navigator.camera.getPicture(uploadPhoto,onError,{sourceType:1,quality:60});
+function capturePhoto() {
+	navigator.camera.getPicture(uploadPhoto, onError, {
+		sourceType : 1,
+		quality : 60
+	});
 }
 
-function uploadPhoto(data){
+function uploadPhoto(data) {
 	localStorage.setItem("profilepicture", data);
-    $("#cameraPic").attr("src", data);  
+	$("#cameraPic").attr("src", data);
 }
 
-function searchAllContacts() 
-{   
+function searchAllContacts() {
 	$("#emptyloader").append('<div class="loader">Loading...</div>');
-    navigator.contacts.find( [navigator.contacts.fieldType.displayName], onSuccess, onError );
+	navigator.contacts.find([navigator.contacts.fieldType.displayName], onSuccess, onError);
 }
 
-function onSuccess(contacts) 
-{
-    for (var i=0; i<contacts.length; i++) 
-    {    
-        if(contacts[i].displayName != undefined)
-        {
+function onSuccess(contacts) {
+	for (var i = 0; i < contacts.length; i++) {
+		if (contacts[i].displayName != undefined) {
 
-            $(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:'+contacts[i].phoneNumbers[0].value+';body=doe mee potta" >invite</a></li>');
- 
-        }
-    }
-    $('.contactlist').listview('refresh');
+			$(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:' + contacts[i].phoneNumbers[0].value + ';body=doe mee potta" >invite</a></li>');
+
+		}
+	}
+	$('.contactlist').listview('refresh');
 	$('.loader').remove();
 }
 
-function onError(contactError) 
-{
-    alert('onError!');
+function onError(contactError) {
+	alert('Foto maken geannuleerd!');
 }
 
+/* test----------------------------------------*/
