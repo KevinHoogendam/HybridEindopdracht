@@ -4,30 +4,18 @@ function getLanguage() {
 
 function onSucces(language)
 {
-    alert(language.value)
-    //     switch (language) {
-    //     case 0:
-    //         day = "Sunday";
-    //         break;
-    //     case 1:
-    //         day = "Monday";
-    //         break;
-    //     case 2:
-    //         day = "Tuesday";
-    //         break;
-    //     case 3:
-    //         day = "Wednesday";
-    //         break;
-    //     case 4:
-    //         day = "Thursday";
-    //         break;
-    //     case 5:
-    //         day = "Friday";
-    //         break;
-    //     case 6:
-    //         day = "Saturday";
-    //         break;
-    // }
+    //alert(language.value);
+        switch (language.value) {
+        case "nl-NL":
+            alert("nderland");
+            break;
+        case "en-US":
+            day = "engels us";
+            break;
+        default :
+            alert("defeult");
+            break;
+    }
 }
 
 function onError()
