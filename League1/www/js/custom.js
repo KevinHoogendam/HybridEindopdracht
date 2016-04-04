@@ -51,10 +51,19 @@ $(document).on("pageshow", "#loginpage", function () {
     // }
 });
 
-$(document).on("pageshow", function() {
-    alert("pageshpow");
-    getLanguage();
-});
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+    $(document).on("pageshow", function() {
+        console.log("Hello world!");
+        getLanguage();
+    });
+}
+
+// $(document).on("pageshow", function() {
+//     alert("pageshpow");
+//     //getLanguage();
+// });
 
 $(document).on("pagebeforechange", function () {
 	$.mobile.changeGlobalTheme(globalTheme);
