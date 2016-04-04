@@ -1,5 +1,5 @@
 var champions;
-var panel = '<div data-role="panel" data-theme="b" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1><span class="panel"></h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn"><span class="homePage"></a> <a href="mychampions.html" class="ui-btn"><span class="myChampions"></a> <a href="allchampions.html" class="ui-btn"><span class="allChampions"></a>  <a href="profile.html" class="ui-btn"><span class="profile"></a><a href="settings.html" class="ui-btn"><span class="settings"></a></div> </div>';
+var panel = '<div data-role="panel" data-theme="b" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1><span class="panel"></h1> </div> <div data-role="main" class="ui-content"> <a href="homepage.html" class="ui-btn"><span class="homePage"></a> <a href="mychampions.html" class="ui-btn"><span class="myChampions"></a> <a href="allchampions.html" class="ui-btn"><span class="allChampions"></a>  <a href="profile.html" class="ui-btn"><span class="profile"></a><a href="settings.html" class="ui-btn"><span class="settings"></a></div> </div>';
 var detailID;
 var globalTheme = getTheme();
 var isRefreshed = false;
@@ -43,10 +43,15 @@ $(document).on("mobileinit", function () {
 });
 
 $(document).on("pageshow", "#loginpage", function () {
+    alert("naar home");
+    $.mobile.changePage("homepage.html");
+});
+
+$(document).on("pageshow", "#homepage", function () {
 	$('.inapp').on('tap', function () {
 		window.open('http://leagueoflegends.com', '_blank', 'location=yes');
 	});
-    // if($.mobile.activePage.attr('id') != 'loginpage')
+    // if($.mobile.activePage.attr('id') != 'homepage')
     // {
     //     getLanguage();
     // }
@@ -101,7 +106,7 @@ $(document).on("pageinit", "#settings", function () {
  
 		function swipeleftHandler( event ){
 			$.mobile.changePage( "status.html", {
-				transition: "slide",
+				transition: "slide"
 
 			});
 		}
