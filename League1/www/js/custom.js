@@ -1,5 +1,5 @@
 var champions;
-var panel = '<div data-role="panel" data-theme="b" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home</a> <a href="mychampions.html" class="ui-btn">My Champions</a> <a href="allchampions.html" class="ui-btn">All Champions</a>  <a href="mycontacts.html" class="ui-btn">Profile</a><a href="settings.html" class="ui-btn">Settings</a></div> </div>';
+var panel = '<div data-role="panel" data-theme="b" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1><span class="panel"></h1> </div> <div data-role="main" class="ui-content"> <a href="homepage.html" class="ui-btn"><span class="homePage"></a> <a href="mychampions.html" class="ui-btn"><span class="myChampions"></a> <a href="allchampions.html" class="ui-btn"><span class="allChampions"></a>  <a href="profile.html" class="ui-btn"><span class="profile"></a><a href="settings.html" class="ui-btn"><span class="settings"></a></div> </div>';
 var detailID;
 var globalTheme = getTheme();
 
@@ -42,10 +42,22 @@ $(document).on("mobileinit", function () {
 });
 
 $(document).on("pageshow", "#loginpage", function () {
+    $.mobile.changePage("homepage.html");
+});
+
+$(document).on("pageshow", "#homepage", function () {
 	$('.inapp').on('tap', function () {
 		window.open('http://leagueoflegends.com', '_blank', 'location=yes');
 	});
 });
+
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+    $(document).on("pageshow", function() {
+        getLanguage();
+    });
+}
 
 $(document).on("pagebeforechange", function () {
 	$.mobile.changeGlobalTheme(globalTheme);
@@ -54,6 +66,8 @@ $(document).on("pagebeforechange", function () {
 $(document).on("pagebeforeshow", function () {
 	$('.toast').hide();
 });
+
+
 
 $(document).on("pageinit", "#settings", function () {
 	var i = localStorage.getItem("theme");
@@ -74,7 +88,7 @@ $(document).on("pageinit", "#settings", function () {
  
 		function swipeleftHandler( event ){
 			$.mobile.changePage( "status.html", {
-				transition: "slide",
+				transition: "slide"
 
 			});
 		}
@@ -103,8 +117,8 @@ $(document).on("pageinit", "#status", function () {
 	});
 });
 
-$(document).on("pageinit", "#mycontacts", function () {
-	console.log("before pageshow mycontacts");
+$(document).on("pageinit", "#profile", function () {
+	console.log("before pageshow profile");
 	var picture = localStorage.getItem("profilepicture");
 	if (picture != undefined) {
 		$("#cameraPic").attr("src", picture);
@@ -326,7 +340,7 @@ function onSuccess(contacts) {
 	for (var i = 0; i < contacts.length; i++) {
 		if (contacts[i].displayName != undefined) {
 
-			$(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:' + contacts[i].phoneNumbers[0].value + ';body=doe mee potta" >invite</a></li>');
+			$(".contactlist").append('<li class="champli">' + contacts[i].displayName + '<a class = "ui-btn" href="sms:' + contacts[i].phoneNumbers[0].value + ';body=doe mee potta" ><span class="invite"></a></li>');
 
 		}
 	}
@@ -338,4 +352,88 @@ function onError(contactError) {
 	alert('Foto maken geannuleerd!');
 }
 
-/* test----------------------------------------*/
+//----------------------------------------------------Taal functies-----------------------------------------------------------------\\
+
+function getLanguage() {     
+    navigator.globalization.getPreferredLanguage(onLanguageSucces, onLanguageError);
+}
+
+function onLanguageSucces(language)
+{
+    switch (language.value) 
+    {
+    case "nl-NL":
+        setDutch();           
+        break;
+    default :
+        setEnglish();
+        break;
+    }
+}
+
+function onLanguageError()
+{
+    alert('Error getting language');
+}
+
+function setDutch()
+{
+    //all Pages
+    $(".panel").html("Paneel");
+    $(".homePage").html("Homepagina");
+    $(".myChampions").text("Mijn kampioenen");
+    $(".allChampions").html("Alle kampioenen");
+    $(".championDetails").html("Kampioen details");
+    $(".profile").html("Profiel");
+    $(".settings").html("Instellingen");
+    $(".footer").html("Voeter");            
+    //Index
+    $(".welcome").html("Welkom");
+    $(".officialLeagueOfLegendsSite").html("Officiele League of Legends website");
+    //MyChampions
+    $(".championRemoved").html("Kampioen verwijderd");
+    //AllChampions
+    $(".championAdded").html("Kampioen toegevoegd");
+    //ChampionDetails
+    $(".attackPower").html("Aanvalskracht");
+    $(".magicPower").html("Magie");
+    $(".defensePower").html("Verdediging");
+    $(".difficultyLevel").html("Moeilijkheidsgraad");
+    //Settings
+    $(".settingsWillActivateWhenChangingPage").html("Instelling worden aangepast bij het veranderen van de pagina");
+    $(".applicationTheme").html("Applicatie thema");
+    //profile
+    $(".invite").html("Uitnodigen");
+}
+
+function setEnglish()
+{
+    //all Pages
+    $(".panel").html("Panel");
+    $(".homePage").html("Homepage");
+    $(".myChampions").text("My Champions");
+    $(".allChampions").html("All Champions");
+    $(".championDetails").html("Champion Details");
+    $(".profile").html("Profile");
+    $(".settings").html("Settings");
+    $(".footer").html("Footer");            
+    //Index
+    $(".welcome").html("Welcome");
+    $(".officialLeagueOfLegendsSite").html("Official League of Legends Site");
+    //MyChampions
+    $(".championRemoved").html("Champion Removed");
+    //AllChampions
+    $(".championAdded").html("Champion Added");
+    //ChampionDetails
+    $(".attackPower").html("Attack");
+    $(".magicPower").html("Magic");
+    $(".defensePower").html("Defense");
+    $(".difficultyLevel").html("Difficulty");
+    //Settings
+    $(".settingsWillActivateWhenChangingPage").html("Settings Will Activate When Changing the Page");
+    $(".applicationTheme").html("Application theme");
+    // $(".standard").html("standard");
+    // $(".special").html("special");
+    //profile
+    $(".invite").html("Invite");
+}
