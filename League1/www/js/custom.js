@@ -45,6 +45,14 @@ $(document).on("pageshow", "#loginpage", function () {
 	$('.inapp').on('tap', function () {
 		window.open('http://leagueoflegends.com', '_blank', 'location=yes');
 	});
+    // if($.mobile.activePage.attr('id') != 'loginpage')
+    // {
+    //     getLanguage();
+    // }
+});
+
+$(document).on("pageshow", function() {
+    alert("pageshpow");
     getLanguage();
 });
 
@@ -53,12 +61,10 @@ $(document).on("pagebeforechange", function () {
 });	
 
 $(document).on("pagebeforeshow", function () {
-    if($.mobile.activePage.attr('id') != 'loginpage')
-    {
-        getLanguage();
-    }
 	$('.toast').hide();
 });
+
+
 
 $(document).on("pageinit", "#settings", function () {
 	var i = localStorage.getItem("theme");
