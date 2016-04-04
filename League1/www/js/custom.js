@@ -1,5 +1,5 @@
 var champions;
-var panel = '<div data-role="panel" data-theme="b" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Panel</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home</a> <a href="mychampions.html" class="ui-btn">My Champions</a> <a href="allchampions.html" class="ui-btn">All Champions</a>  <a href="mycontacts.html" class="ui-btn">Profile</a><a href="settings.html" class="ui-btn">Settings</a></div> </div>';
+var panel = '<div data-role="panel" data-theme="b" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1>Menu</h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn">Home</a> <a href="mychampions.html" class="ui-btn">My Champions</a> <a href="allchampions.html" class="ui-btn">All Champions</a>  <a href="mycontacts.html" class="ui-btn">Profile</a><a href="settings.html" class="ui-btn">Settings</a></div> </div>';
 var detailID;
 var globalTheme = getTheme();
 
@@ -132,7 +132,7 @@ $(document).on("pagebeforeshow", "#allchampions", function () {
 	$(".plus-sign").on("tap", function () {
 		addChampToList($(this).attr('id'));
 		$('.toast').fadeIn(500).delay(500).fadeOut(500);
-		$(this).hide();
+		$(this).fadeOut(1000);
 	});
 
 	$(".info").on("tap", function () {
