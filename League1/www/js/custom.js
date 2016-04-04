@@ -42,7 +42,6 @@ $(document).on("mobileinit", function () {
 });
 
 $(document).on("pageshow", "#loginpage", function () {
-    alert("naar home");
     $.mobile.changePage("homepage.html");
 });
 
