@@ -352,6 +352,7 @@ function getLanguage() {
 
 function onLanguageSucces(language)
 {
+    alert(language.value)
     switch (language.value) 
     {
     case "nl-NL":
