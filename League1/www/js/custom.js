@@ -2,6 +2,7 @@ var champions;
 var panel = '<div data-role="panel" data-theme="b" id="mypanel" data-position="left" data-display="push" class="custompanel"> <div data-role="header"> <h1><span class="panel"></h1> </div> <div data-role="main" class="ui-content"> <a href="#loginpage" class="ui-btn"><span class="homePage"></a> <a href="mychampions.html" class="ui-btn"><span class="myChampions"></a> <a href="allchampions.html" class="ui-btn"><span class="allChampions"></a>  <a href="profile.html" class="ui-btn"><span class="profile"></a><a href="settings.html" class="ui-btn"><span class="settings"></a></div> </div>';
 var detailID;
 var globalTheme = getTheme();
+var isRefreshed = false;
 
 $(document).one('pagebeforecreate', function () {
 	$.mobile.pageContainer.prepend(panel);
@@ -55,8 +56,14 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
     $(document).on("pageshow", function() {
-        console.log("Hello world!");
+        alert("Hello world!");
+
         getLanguage();
+        if(!isRefreshed)
+        {
+            refreshPage();  
+            isRefreshed = true;
+        }
     });
 }
 
