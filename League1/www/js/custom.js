@@ -45,6 +45,7 @@ $(document).on("pageshow", "#loginpage", function () {
 	$('.inapp').on('tap', function () {
 		window.open('http://leagueoflegends.com', '_blank', 'location=yes');
 	});
+    getLanguage();
 });
 
 $(document).on("pagebeforechange", function () {
@@ -52,7 +53,10 @@ $(document).on("pagebeforechange", function () {
 });	
 
 $(document).on("pagebeforeshow", function () {
-    getLanguage();
+    if($.mobile.activePage.attr('id') != 'loginpage')
+    {
+        getLanguage();
+    }
 	$('.toast').hide();
 });
 
@@ -342,11 +346,11 @@ function onError(contactError) {
 //----------------------------------------------------Taal functies-----------------------------------------------------------------\\
 
 function getLanguage() {    
-    setDutch();  
-    //navigator.globalization.getPreferredLanguage(onLaguageSucces, onLaguageError);
+    //setDutch();  
+    navigator.globalization.getPreferredLanguage(onLanguageSucces, onLanguageError);
 }
 
-function onLaguageSucces(language)
+function onLanguageSucces(language)
 {
     switch (language.value) 
     {
@@ -359,7 +363,7 @@ function onLaguageSucces(language)
     }
 }
 
-function onLaguageError()
+function onLanguageError()
 {
     alert('Error getting language');
 }
