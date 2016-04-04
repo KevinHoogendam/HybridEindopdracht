@@ -68,13 +68,16 @@ $(document).on("pageinit", "#settings", function () {
 		globalTheme = getTheme();
 	});
 	
+	$('.option').on('tap', function(){
+		refreshPage();
+	});
 	
 	$(function(){
 		$( "#settings" ).on( "swipeleft", swipeleftHandler );
  
 		function swipeleftHandler( event ){
 			$.mobile.changePage( "status.html", {
-				transition: "slide",
+				transition: "slide"
 
 			});
 		}
